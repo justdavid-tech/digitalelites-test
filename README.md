@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Digital Elites
+
+The official digital yearbook of the **Department of Computer Engineering, Abubakar Tafawa Balewa University (ATBU)**. Celebrating Excellence. Preserving Legacy.
+
+This project is a modern, responsive web application designed to archive and showcase the student profiles, memories, and milestones of the graduating Class of 2026.
+
+---
+
+## Features
+
+- **Dynamic Finalist Marquee**: An infinite-loop circular scrolling marquee displaying finalists, powered dynamically by Sanity CMS profile data.
+- **Finalist of the Day**: A spotlight card featuring a daily selected graduate complete with their personal quote, nickname, and profile photo.
+- **Searchable Finalists Directory**: Client-side filtering mechanism to search graduates by name/nickname and filter by gender.
+- **Interactive Class Gallery**: A responsive image and media grid displaying graduation memories, with support for popup video modal players.
+- **Graduation Countdown Timer**: Real-time interactive ticker counting down days, hours, minutes, and seconds, with target dates managed dynamically via the CMS.
+- **Department & Developer About Section**: Rich presentation layer detailing department history, academic leadership starring HOD, Exam Officer, Patron ACCES, Chief Technogist, achievements, and developer portfolios.
+- **Personalized Shareable Profiles**: Share buttons on student profiles that automatically copy the profile link to the clipboard with visual success feedback.
+- **Dynamic SEO Optimization**: Next.js Metadata API integration rendering custom page titles, OpenGraph images, and dynamic preview cards (using the student's actual photo) when links are pasted on social platforms.
+- **Fully Responsive Design**: Mobile and tablet optimization ensuring correct scaling on foldables, handsets, and desktop monitors.
+
+---
+
+## Technology Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (App Router & React Server Components)
+- **CMS (Backend)**: [Sanity.io](https://www.sanity.io/) (Headless CMS for structure and asset delivery)
+- **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+- **Styling**: Vanilla CSS (TailwindCSS configuration enabled for additional styling needs)
+
+---
+
+## Recent Upgrades & Custom Integrations
+
+1. **Dynamic Sanity Integration**: 
+   - Replaced static mocked arrays with live fetching mechanisms utilizing Sanity query clients.
+   - Incorporated `urlFor` CDN image builders for optimal page load speed and asset resolution.
+2. **Brace-Syntax & Responsive Restructures**:
+   - Fixed syntax errors on custom CSS layout declarations.
+   - Refactored CTA buttons to support proper visual action hierarchy (primary vs. secondary outline) and responsive layout stacking.
+   - Upgraded developer branding cards with interactive hover effects and scaling transitions.
+3. **Next.js Metadata Splitting**:
+   - Resolved client-side/server-side metadata boundaries by separating interactive features into designated wrapper files (`AboutClient.jsx`) while maintaining server-side search engine friendliness.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have Node.js installed on your system.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd digital-elites
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. Set up environment variables in a `.env.local` file at the root:
+   ```env
+   NEXT_PUBLIC_SANITY_PROJECT_ID="your_sanity_project_id"
+   NEXT_PUBLIC_SANITY_DATASET="production"
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+### Running the Application
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Development Server**:
+  ```bash
+  npm run dev
+  ```
+- **Production Build**:
+  ```bash
+  npm run build
+  npm run start
+  ```

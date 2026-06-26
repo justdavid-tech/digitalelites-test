@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* ── Force light mode — overrides Tailwind v4's dark-mode preflight ── */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: light;
+  }
+
+  html, body {
+    background-color: #FFFFFF !important;
+    color: #1A1A1A !important;
   }
 }
 
+:root {
+  /* ── FONTS ── */
+  /* To swap fonts, replace the Google Fonts import in layout.js */
+  --font-heading: var(--font-heading), "M PLUS 1p", "M PLUS U", system-ui, sans-serif;
+  --font-body: var(--font-body), "Work Sans", system-ui, sans-serif;
+
+  /* ── COLORS ── */
+  --color-white: #FFFFFF;
+  --color-light: #F8F8F8;
+  --color-deep-blue: #0D2B6B;
+  --color-deep-blue-dark: #091E4E;
+  --color-gold: #C9A02B;
+  --color-gold-light: #E8C547;
+  --color-black: #1A1A1A;
+  --color-gray: #555555;
+  --color-gray-light: #E5E5E5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), serif;
 }
