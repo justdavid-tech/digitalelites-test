@@ -62,13 +62,6 @@ export default function Navbar() {
           gap: '10px',
           textDecoration: 'none',
         }}>
-          {/* <Image
-            src="/logo-nav.png"
-            alt="Digital Elites Logo"
-            width={38}
-            height={38}
-            style={{ objectFit: 'contain' }}
-          /> */}
           <span style={{
             fontFamily: 'var(--font-heading)',
             fontSize: '1.2rem',
@@ -180,33 +173,10 @@ export default function Navbar() {
         transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 0.4s cubic-bezier(0.77, 0, 0.175, 1)',
       }}>
-        {/* Mobile Logo */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          marginBottom: '1rem',
-        }}>
-          <Image
-            src="/logo.png"
-            alt="Digital Elites Logo"
-            width={44}
-            height={44}
-            style={{ objectFit: 'contain' }}
-          />
-          <span style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '1.4rem',
-            fontWeight: '700',
-            color: 'var(--color-white)',
-          }}>
-            Digital Elites
-          </span>
-        </div>
-
+   
         {/* Gold divider */}
         <div style={{
-          width: '40px',
+          width: '90px',
           height: '2px',
           backgroundColor: 'var(--color-gold)',
         }} />
