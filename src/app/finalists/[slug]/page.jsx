@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { client } from '@/sanity/lib/client'
+
+export const revalidate = 10
 import { urlFor } from '@/sanity/lib/image'
 import {
   FaInstagram,
@@ -113,6 +115,7 @@ export default async function FinalistProfilePage({ params }) {
               src={urlFor(finalist.photo).width(400).height(400).url()}
               alt={finalist.fullName}
               fill
+              sizes="180px"
               style={{ objectFit: 'cover' }}
             />
           ) : null}

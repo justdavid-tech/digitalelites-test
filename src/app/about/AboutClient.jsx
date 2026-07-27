@@ -37,6 +37,12 @@ const leadership = [
     description: 'Manages examination activities and mentors 100-level students as their academic adviser.',
     photo: '/profile-4.jpeg',
   },
+  {
+    name: ' Dr. U. S. Toro ',
+    position: 'Record/ Registration Officer',
+    description: 'Serves as the Record and Registration Officer, specializing in Database Systems and Wireless Sensor Network research while lecturing and mentoring senior undergraduates.',
+    photo: '/profile-5.jpg',
+  },
 ]
 
 export default function AboutClient() {
@@ -219,7 +225,7 @@ export default function AboutClient() {
             backgroundColor: 'rgba(255,255,255,0.1)',
             margin: '0 auto',
           }}>
-            <Image src="/hod.jpeg" alt="HOD" fill style={{ objectFit: 'cover' }} />
+            <Image src="/hod.jpeg" alt="HOD" fill sizes="200px" style={{ objectFit: 'cover' }} />
           </div>
 
           <div>

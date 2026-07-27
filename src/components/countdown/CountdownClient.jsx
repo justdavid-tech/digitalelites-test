@@ -216,6 +216,7 @@ export default function CountdownClient({ graduationDate, graduationMessage, fin
                     src={urlFor(person.photo).width(200).height(200).url()}
                     alt={person.fullName}
                     fill
+                    sizes="80px"
                     style={{ objectFit: 'cover' }}
                   />
                 </div>

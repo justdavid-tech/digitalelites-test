@@ -1,6 +1,8 @@
 import { client } from '@/sanity/lib/client'
 import FinalistsClient from '@/components/finalists/FinalistsClient'
 
+export const revalidate = 10
+
 export const metadata = {
   title: 'Search Finalists',
   description: 'Search and find student profiles of the graduating Class of 2026.',

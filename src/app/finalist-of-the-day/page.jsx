@@ -1,6 +1,8 @@
 import { client } from '@/sanity/lib/client'
 import FinalistOfTheDayClient from '@/components/finalist-of-the-day/FinalistOfTheDayClient'
 
+export const revalidate = 10
+
 async function getFinalistOfTheDayData() {
   const current = await client.fetch(`
     *[_type == "finalistOfTheDay" && isActive == true][0] {

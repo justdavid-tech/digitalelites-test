@@ -138,6 +138,7 @@ export default async function FinalistOfTheDayPreview() {
                     src={urlFor(data.finalist.photo).width(400).height(400).url()}
                     alt={data.finalist.fullName}
                     fill
+                    sizes="200px"
                     style={{ objectFit: 'cover' }}
                   />
                 ) : (

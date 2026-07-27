@@ -1,6 +1,8 @@
 import { client } from '@/sanity/lib/client'
 import CountdownClient from '@/components/countdown/CountdownClient'
 
+export const revalidate = 10
+
 export const metadata = {
   title: 'Graduation Countdown',
   description: 'Countdown to the graduation ceremony of Computer Engineering, ATBU.',

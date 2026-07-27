@@ -7,6 +7,8 @@ import DepartmentOverview from '@/components/home/DepartmentOverview'
 import AboutDeveloper from '@/components/home/AboutDeveloper'
 import { client } from '@/sanity/lib/client'
 
+export const revalidate = 10
+
 async function getCountdown() {
   return await client.fetch(`
     *[_type == "countdown"][0] {

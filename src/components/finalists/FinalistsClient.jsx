@@ -200,6 +200,7 @@ export default function FinalistsClient({ finalists }) {
                         src={urlFor(finalist.photo).width(400).height(400).url()}
                         alt={finalist.fullName}
                         fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px"
                         style={{ objectFit: 'cover' }}
                       />
                     ) : (

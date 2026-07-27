@@ -126,6 +126,7 @@ export default async function GalleryPreview() {
                           src={urlFor(item.image).width(600).height(450).url()}
                           alt={item.caption || 'Gallery image'}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 350px"
                           style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                         />
                       )}
@@ -209,6 +210,7 @@ export default async function GalleryPreview() {
                           src={urlFor(item.thumbnail).width(600).height(450).url()}
                           alt={item.caption || 'Video thumbnail'}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 350px"
                           style={{ objectFit: 'cover', opacity: 0.7 }}
                         />
                       )}

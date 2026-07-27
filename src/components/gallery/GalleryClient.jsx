@@ -13,7 +13,7 @@ export default function GalleryClient({ images, videos }) {
     const taggedImages = images.map((item) => ({ ...item, mediaType: 'image' }))
     const taggedVideos = videos.map((item) => ({ ...item, mediaType: 'video' }))
     return [...taggedImages, ...taggedVideos].sort((a, b) =>
-      new Date(b.date || 0) - new Date(a.date || 0)
+      new Date(b.date || b._createdAt || 0) - new Date(a.date || a._createdAt || 0)
     )
   }, [images, videos])
 

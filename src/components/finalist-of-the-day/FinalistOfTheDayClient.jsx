@@ -64,6 +64,7 @@ export default function FinalistOfTheDayClient({ current, previous }) {
                   src={urlFor(current.finalist.photo).width(400).height(400).url()}
                   alt={current.finalist.fullName}
                   fill
+                  sizes="180px"
                   style={{ objectFit: 'cover' }}
                 />
               ) : (
@@ -277,6 +278,7 @@ export default function FinalistOfTheDayClient({ current, previous }) {
                           src={urlFor(entry.finalist.photo).width(200).height(200).url()}
                           alt={entry.finalist.fullName}
                           fill
+                          sizes="100px"
                           style={{ objectFit: 'cover' }}
                         />
                       ) : (

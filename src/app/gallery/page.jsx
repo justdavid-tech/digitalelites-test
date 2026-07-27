@@ -1,6 +1,8 @@
 import { client } from '@/sanity/lib/client'
 import GalleryClient from '@/components/gallery/GalleryClient'
 
+export const revalidate = 10
+
 export const metadata = {
   title: 'Class Gallery',
   description: 'Browse photos, videos, and memories of the Computer Engineering Class of 2026.',
@@ -12,6 +14,7 @@ async function getGalleryData() {
     *[_type == "galleryImage"] | order(date desc) {
       _id,
       _type,
+      _createdAt,
       image,
       caption,
       category,
@@ -23,6 +26,7 @@ async function getGalleryData() {
     *[_type == "galleryVideo"] | order(date desc) {
       _id,
       _type,
+      _createdAt,
       video,
       thumbnail,
       caption,
