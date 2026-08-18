@@ -30,6 +30,7 @@ import {
   Quote,
   Sparkles,
   Link as LinkIcon,
+  Phone,
 } from "lucide-react";
 import ShareButton from '@/components/finalists/ShareButton'
 
@@ -225,6 +226,7 @@ export default async function FinalistProfilePage({ params }) {
           <InfoRow icon={MapPin} label="State of Origin" value={finalist.stateOfOrigin} />
           <InfoRow icon={Heart} label="Relationship Status" value={finalist.relationshipStatus} />
           <InfoRow icon={Gamepad2} label="Hobbies" value={finalist.hobbies} />
+          <InfoRow icon={Phone} label="Phone Number" value={finalist.phoneNumber} />
         </InfoCard>
 
         {/* Academic Info */}

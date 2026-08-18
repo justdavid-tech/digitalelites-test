@@ -33,6 +33,21 @@ export default {
     { name: 'stateOfOrigin', title: 'State of Origin', type: 'string' },
     { name: 'relationshipStatus', title: 'Relationship Status', type: 'string' },
     { name: 'hobbies', title: 'Hobbies', type: 'string' },
+    {
+      name: 'phoneNumber',
+      title: 'Phone Number',
+      type: 'string',
+      description: 'Phone Number (e.g. +2348031234567 or 08031234567)',
+      validation: Rule => Rule.custom(value => {
+        if (!value) return true
+        const cleanNumber = value.replace(/\s+/g, '').replace(/-/g, '')
+        const regex = /^(?:\+234|234|0)[789][01]\d{8}$/
+        if (regex.test(cleanNumber)) {
+          return true
+        }
+        return 'Please enter a valid Nigerian phone number (e.g. 08031234567 or +2348031234567)'
+      })
+    },
 
     // Academic Info
     { name: 'favoriteCourse', title: 'Favorite Course', type: 'string' },
