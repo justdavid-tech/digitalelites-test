@@ -33,6 +33,7 @@ import {
   Phone,
 } from "lucide-react";
 import ShareButton from '@/components/finalists/ShareButton'
+import BackButton from '@/components/finalists/BackButton'
 
 async function getFinalist(slug) {
   return await client.fetch(
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }) {
   }
 
   const title = `${finalist.fullName} ${finalist.nickname ? `("${finalist.nickname}")` : ''}`
-  const description = `Read the graduating profile of ${finalist.fullName} from the ATBU Computer Engineering Class of 2026.`
+  const description = `Read the graduating profile of ${finalist.fullName} from the ATBU Computer and Communication Engineering Class of 2026.`
   const imageUrl = finalist.photo 
     ? urlFor(finalist.photo).width(800).height(800).url() 
     : 'https://digitalelites.com.ng/digital-logo.jpeg'
@@ -97,10 +98,20 @@ export default async function FinalistProfilePage({ params }) {
       {/* Header */}
       <section style={{
         backgroundColor: 'var(--color-deep-blue)',
-        padding: '4rem 2rem 6rem',
+        padding: '2rem 2rem 6rem',
         textAlign: 'center',
         position: 'relative',
       }}>
+        {/* Top Back Navigation Bar */}
+        <div style={{
+          maxWidth: '900px',
+          margin: '0 auto 1.5rem',
+          display: 'flex',
+          justifyContent: 'flex-start',
+        }}>
+          <BackButton label="Back" fallbackHref="/finalists" />
+        </div>
+
         <div style={{
           width: '180px',
           height: '180px',
@@ -210,15 +221,26 @@ export default async function FinalistProfilePage({ params }) {
         </section>
       )}
 
-      {/* Info Sections */}
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '4rem 2rem',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '2rem',
-      }}>
+ {/* Info Sections */}
+<style>{`
+  .de-info-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  @media (max-width: 640px) {
+    .de-info-grid {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 2.5rem 1.25rem;
+      gap: 1.25rem;
+    }
+  }
+`}</style>
+
+<section className="de-info-grid">
 
         {/* Personal Info */}
         <InfoCard title="Personal Information">
@@ -243,7 +265,7 @@ export default async function FinalistProfilePage({ params }) {
             <InfoRow label="Class Crush" value={finalist.classCrush} />
             <InfoRow label="Best Experience" value={finalist.bestExperience} />
             <InfoRow label="ATBU In One Word" value={finalist.atbuInOneWord} />
-            <InfoRow label="If Not Computer Engineering" value={finalist.ifNotComputerEngineering} />
+            <InfoRow label="If Not Computer and Communication Engineering" value={finalist.ifNotComputerEngineering} />
           </InfoCard>
         </div>
       </section>
@@ -282,7 +304,7 @@ function InfoRow({ icon: Icon, label, value }) {
   return (
     <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
       {Icon && <Icon size={16} color="var(--color-gold)" style={{ marginTop: '3px', flexShrink: 0 }} />}
-      <div>
+      <div style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
         <p style={{
           fontFamily: 'var(--font-body)',
           fontSize: '0.75rem',

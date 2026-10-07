@@ -1,0 +1,316 @@
+[
+  {
+    "fields": [
+      {
+        "name": "fullName",
+        "type": "string"
+      },
+      {
+        "name": "nickname",
+        "type": "string"
+      },
+      {
+        "initialValue": false,
+        "description": "Turn ON to pin this finalist to the top of the Finalists page.",
+        "name": "isFeatured",
+        "type": "boolean",
+        "title": "Featured (Show First)"
+      },
+      {
+        "options": {
+          "source": "fullName",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "description": "Auto-generated from the full name. Click \"Generate\" after typing the name.",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "photo",
+        "type": "image"
+      },
+      {
+        "options": {
+          "list": [
+            "Male",
+            "Female"
+          ],
+          "layout": "radio"
+        },
+        "name": "gender",
+        "type": "string"
+      },
+      {
+        "name": "birthday",
+        "type": "string"
+      },
+      {
+        "name": "stateOfOrigin",
+        "type": "string",
+        "title": "State of Origin"
+      },
+      {
+        "name": "relationshipStatus",
+        "type": "string"
+      },
+      {
+        "name": "hobbies",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "description": "Phone Number (e.g. +2348031234567 or 08031234567)",
+        "name": "phoneNumber",
+        "type": "string"
+      },
+      {
+        "name": "favoriteCourse",
+        "type": "string"
+      },
+      {
+        "name": "hardestCourse",
+        "type": "string"
+      },
+      {
+        "name": "favoriteLecturer",
+        "type": "string"
+      },
+      {
+        "name": "mostStressfulLevel",
+        "type": "string"
+      },
+      {
+        "name": "classCrush",
+        "type": "string"
+      },
+      {
+        "name": "bestExperience",
+        "type": "text"
+      },
+      {
+        "name": "atbuInOneWord",
+        "type": "string",
+        "title": "ATBU In One Word"
+      },
+      {
+        "name": "ifNotComputerEngineering",
+        "type": "string"
+      },
+      {
+        "name": "personalQuote",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "list": [
+                    {
+                      "title": "Instagram",
+                      "value": "instagram"
+                    },
+                    {
+                      "title": "Facebook",
+                      "value": "facebook"
+                    },
+                    {
+                      "title": "X (Twitter)",
+                      "value": "twitter"
+                    },
+                    {
+                      "title": "LinkedIn",
+                      "value": "linkedin"
+                    },
+                    {
+                      "title": "TikTok",
+                      "value": "tiktok"
+                    },
+                    {
+                      "title": "YouTube",
+                      "value": "youtube"
+                    },
+                    {
+                      "title": "Threads",
+                      "value": "threads"
+                    },
+                    {
+                      "title": "Snapchat",
+                      "value": "snapchat"
+                    },
+                    {
+                      "title": "WhatsApp",
+                      "value": "whatsapp"
+                    },
+                    {
+                      "title": "Telegram",
+                      "value": "telegram"
+                    }
+                  ],
+                  "layout": "dropdown"
+                },
+                "name": "platform",
+                "type": "string"
+              },
+              {
+                "description": "Example: @johndoe",
+                "name": "handle",
+                "type": "string",
+                "title": "Handle / Username"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "socialMediaHandles",
+        "type": "array"
+      }
+    ],
+    "name": "finalist",
+    "type": "document",
+    "title": "Finalist Profile"
+  },
+  {
+    "fields": [
+      {
+        "to": [
+          {
+            "type": "finalist"
+          }
+        ],
+        "name": "finalist",
+        "type": "reference"
+      },
+      {
+        "description": "Turn ON for today's finalist. Only one should be active at a time.",
+        "name": "isActive",
+        "type": "boolean",
+        "title": "Is Active Today?"
+      },
+      {
+        "name": "dateFeautured",
+        "type": "date",
+        "title": "Date Featured"
+      }
+    ],
+    "name": "finalistOfTheDay",
+    "type": "document",
+    "title": "Finalist of the Day"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "name": "caption",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "Department Events",
+            "Project Defense",
+            "Sign Out",
+            "Casual Moments",
+            "Convocation",
+            "Class Activities"
+          ],
+          "layout": "dropdown"
+        },
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "name": "date",
+        "type": "date"
+      }
+    ],
+    "name": "galleryImage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "name": "video",
+        "type": "file"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "thumbnail",
+        "type": "image"
+      },
+      {
+        "name": "caption",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "Project Defense",
+            "Department Events",
+            "Convocation",
+            "Student Highlights"
+          ],
+          "layout": "dropdown"
+        },
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "name": "date",
+        "type": "date"
+      }
+    ],
+    "name": "galleryVideo",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "description": "Set the exact graduation date and time. The website will count down to this.",
+        "name": "graduationDate",
+        "type": "datetime"
+      },
+      {
+        "description": "Message displayed below the countdown timer. e.g. The end of one journey marks the beginning of another.",
+        "name": "graduationMessage",
+        "type": "text"
+      }
+    ],
+    "name": "countdown",
+    "type": "document"
+  }
+]

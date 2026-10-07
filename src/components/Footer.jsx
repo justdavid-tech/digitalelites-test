@@ -23,7 +23,7 @@ export default function Footer() {
       }}>
 
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-10 md:gap-12 mb-12 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1.2fr] gap-10 md:gap-12 mb-12 pb-12 border-b border-white/10">
 
           {/* Brand */}
           <div>
@@ -33,26 +33,19 @@ export default function Footer() {
               gap: '10px',
               marginBottom: '1rem',
             }}>
-              {/* <Image
-                src="/logo.png"
-                alt="Digital Elites Logo"
-                width={38}
-                height={38}
-                style={{ objectFit: 'contain' }}
-              /> */}
               <span style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '1.2rem',
+                fontSize: '1.25rem',
                 fontWeight: '700',
                 color: 'var(--color-white)',
               }}>
-                Digital Elites
+                Digital <span style={{ color: 'var(--color-gold)' }}>Elites</span>
               </span>
             </div>
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.9rem',
-              color: 'rgba(255,255,255,0.6)',
+              color: 'rgba(255,255,255,0.65)',
               lineHeight: '1.7',
               maxWidth: '320px',
             }}>
@@ -79,11 +72,13 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  className="footer-link"
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '0.88rem',
                     color: 'rgba(255,255,255,0.7)',
                     textDecoration: 'none',
+                    transition: 'color 0.2s ease',
                   }}
                 >
                   {link.label}
@@ -105,25 +100,70 @@ export default function Footer() {
             }}>
               Connect
             </h4>
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              {[Mail].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(255,255,255,0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background-color 0.2s ease',
-                  }}
-                >
-                  <Icon size={16} color="var(--color-white)" />
-                </a>
-              ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <a
+                href="mailto:ugwuchinanu@gmail.com"
+                className="footer-contact-link"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  color: 'rgba(255,255,255,0.75)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontFamily: 'var(--font-body)',
+                  transition: 'all 0.2s ease',
+                  wordBreak: 'break-all',
+                }}
+              >
+                <div style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(201, 160, 43, 0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  transition: 'all 0.2s ease',
+                }} className="footer-mail-icon">
+                  <Mail size={15} color="var(--color-gold)" />
+                </div>
+                <span>ugwuchinanu@gmail.com</span>
+              </a>
+
+              <a
+                href="mailto:info@justdavidtech.com"
+                className="footer-contact-link"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  color: 'rgba(255,255,255,0.75)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontFamily: 'var(--font-body)',
+                  transition: 'all 0.2s ease',
+                  wordBreak: 'break-all',
+                }}
+              >
+                <div style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(201, 160, 43, 0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  transition: 'all 0.2s ease',
+                }} className="footer-mail-icon">
+                  <Mail size={15} color="var(--color-gold)" />
+                </div>
+                <span>info@justdavidtech.com</span>
+              </a>
             </div>
           </div>
         </div>
@@ -155,11 +195,45 @@ export default function Footer() {
               fontSize: '0.82rem',
               color: 'rgba(255,255,255,0.5)',
             }}>
-              Designed & Developed by <Link style={{ color: 'red', textDecoration: 'none' }} href="https://justdavidtech.com" target="_blank" rel="noopener noreferrer">justdavidtech</Link>
+              Designed & Developed by{' '}
+              <Link
+                style={{
+                  color: 'var(--color-gold)',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                }}
+                href="https://justdavidtech.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-dev-link"
+              >
+                justdavidtech
+              </Link>
             </span>
           </div>
         </div>
       </div>
+
+      <style>{`
+        .footer-link:hover {
+          color: var(--color-gold) !important;
+          padding-left: 4px;
+        }
+        .footer-contact-link:hover {
+          color: var(--color-gold) !important;
+          transform: translateX(3px);
+        }
+        .footer-contact-link:hover .footer-mail-icon {
+          background-color: rgba(201, 160, 43, 0.25) !important;
+          border-color: var(--color-gold) !important;
+          transform: scale(1.05);
+        }
+        .footer-dev-link:hover {
+          color: #e8c96a !important;
+          text-decoration: underline !important;
+        }
+      `}</style>
     </footer>
   )
 }

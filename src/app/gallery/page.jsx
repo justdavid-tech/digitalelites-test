@@ -5,7 +5,7 @@ export const revalidate = 10
 
 export const metadata = {
   title: 'Class Gallery',
-  description: 'Browse photos, videos, and memories of the Computer Engineering Class of 2026.',
+  description: 'Browse photos, videos, and memories of the Computer and Communication Engineering Class of 2026.',
 }
 
 
@@ -18,6 +18,7 @@ async function getGalleryData() {
       image,
       caption,
       category,
+      isFunny,
       date,
     }
   `)
@@ -28,9 +29,11 @@ async function getGalleryData() {
       _type,
       _createdAt,
       video,
+      "videoUrl": video.asset->url,
       thumbnail,
       caption,
       category,
+      isFunny,
       date,
     }
   `)

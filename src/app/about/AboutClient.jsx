@@ -102,7 +102,7 @@ export default function AboutClient() {
           lineHeight: '1.8',
           marginBottom: '3rem',
         }}>
-          The Department of Computer Engineering at Abubakar Tafawa
+          The Department of Computer and Communication Engineering at Abubakar Tafawa
           Balewa University was established to train engineers capable of designing,
           building, and maintaining the hardware and software systems that power
           modern technology. Over the years, the department has grown into one of
@@ -257,7 +257,7 @@ export default function AboutClient() {
               fontSize: '0.85rem',
               color: 'rgba(255,255,255,0.6)',
             }}>
-              Head of Department, Computer Engineering
+              Head of Department, Computer and Communication Engineering
             </p>
           </div>
         </div>

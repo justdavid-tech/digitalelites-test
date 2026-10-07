@@ -15,17 +15,17 @@
 :root {
   /* ── FONTS ── */
   /* To swap fonts, replace the Google Fonts import in layout.js */
-  --font-heading: var(--font-heading), "M PLUS 1p", "M PLUS U", system-ui, sans-serif;
+  --font-heading: var(--font-heading), "Bebas Neue", system-ui, sans-serif;
   --font-body: var(--font-body), "Work Sans", system-ui, sans-serif;
 
   /* ── COLORS ── */
   --color-white: #FFFFFF;
   --color-light: #F8F8F8;
-  --color-deep-blue: #0D2B6B;
-  --color-deep-blue-dark: #091E4E;
+  --color-deep-blue: #0A1A3F;
+  --color-deep-blue-dark: #0A1A3F;
   --color-gold: #C9A02B;
   --color-gold-light: #E8C547;
-  --color-black: #1A1A1A;
+  --color-black: #252024 ;
   --color-gray: #555555;
   --color-gray-light: #E5E5E5;
 }
@@ -44,4 +44,5 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), serif;
+  letter-spacing: 0.075em;
 }

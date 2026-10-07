@@ -224,7 +224,7 @@ export default async function FinalistOfTheDayPreview() {
                   }}>
                     <Quote size={18} color="var(--color-gold)" style={{ flexShrink: 0, marginTop: '2px' }} />
                     <p style={{
-                      fontFamily: 'var(--font-heading)',
+                      fontFamily: 'var(--font-body)',
                       fontSize: '1rem',
                       color: 'rgba(255,255,255,0.85)',
                       fontStyle: 'italic',

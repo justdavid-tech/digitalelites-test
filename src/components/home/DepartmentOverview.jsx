@@ -49,7 +49,7 @@ export default function DepartmentOverview() {
           marginBottom: '1.5rem',
           lineHeight: '1.2',
         }}>
-          Department of Computer Engineering
+          Department of Computer and Communication Engineering
         </h2>
 
         {/* Description */}
@@ -60,7 +60,7 @@ export default function DepartmentOverview() {
           lineHeight: '1.8',
           marginBottom: '2.5rem',
         }}>
-          For years, the Department of Computer Engineering at ATBU has shaped
+          For years, the Department of Computer and Communication Engineering at ATBU has shaped
           brilliant minds, fostering innovation, discipline, and excellence.
           From late-night project defenses to unforgettable class moments, this
           department has been more than an academic journey, it has been a

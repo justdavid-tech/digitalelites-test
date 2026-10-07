@@ -5,7 +5,7 @@ export const revalidate = 10
 
 export const metadata = {
   title: 'Graduation Countdown',
-  description: 'Countdown to the graduation ceremony of Computer Engineering, ATBU.',
+  description: 'Countdown to the graduation ceremony of Computer and Communication Engineering, ATBU.',
 }
 
 async function getCountdownData() {

@@ -194,7 +194,7 @@ export default function AboutDeveloper() {
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: '1rem',
-            color: 'var(--color-gray)',
+            color: 'var(--color-black)',
             lineHeight: '1.8',
             marginBottom: '2.5rem',
           }}>

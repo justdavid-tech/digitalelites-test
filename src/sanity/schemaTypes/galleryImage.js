@@ -15,6 +15,13 @@ export default {
       type: 'string'
     },
     {
+      name: 'isFunny',
+      title: 'Funny Image / Meme?',
+      type: 'boolean',
+      description: 'Toggle ON if this is a funny image, meme, or friendly banter to roast your mates!',
+      initialValue: false
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'string',
@@ -25,7 +32,9 @@ export default {
           'Sign Out',
           'Casual Moments',
           'Convocation',
-          'Class Activities'
+          'Class Activities',
+          'Funny Moments / Memes',
+          'Friendly Banter'
         ],
         layout: 'dropdown'
       }
@@ -40,7 +49,15 @@ export default {
     select: {
       title: 'caption',
       subtitle: 'category',
-      media: 'image'
+      media: 'image',
+      isFunny: 'isFunny'
+    },
+    prepare({ title, subtitle, media, isFunny }) {
+      return {
+        title: title || 'Untitled Image',
+        subtitle: subtitle || (isFunny ? 'Funny / Meme' : 'Gallery Image'),
+        media
+      }
     }
   }
 }

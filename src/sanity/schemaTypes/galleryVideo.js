@@ -21,6 +21,13 @@ export default {
       type: 'string'
     },
     {
+      name: 'isFunny',
+      title: 'Funny Video / Banter?',
+      type: 'boolean',
+      description: 'Toggle ON if this is a funny video, banter, or humorous clip!',
+      initialValue: false
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'string',
@@ -29,7 +36,9 @@ export default {
           'Project Defense',
           'Department Events',
           'Convocation',
-          'Student Highlights'
+          'Student Highlights',
+          'Funny Moments / Memes',
+          'Friendly Banter'
         ],
         layout: 'dropdown'
       }
@@ -44,7 +53,15 @@ export default {
     select: {
       title: 'caption',
       subtitle: 'category',
-      media: 'thumbnail'
+      media: 'thumbnail',
+      isFunny: 'isFunny'
+    },
+    prepare({ title, subtitle, media, isFunny }) {
+      return {
+        title: title || 'Untitled Video',
+        subtitle: subtitle || (isFunny ? 'Funny Video / Banter' : 'Gallery Video'),
+        media
+      }
     }
   }
 }

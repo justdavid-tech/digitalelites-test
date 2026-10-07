@@ -1,11 +1,12 @@
-import { Work_Sans, M_PLUS_1p } from 'next/font/google'
+import { Work_Sans, Bebas_Neue } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import Splash from '@/components/Splash'
 
-const mPlusU = M_PLUS_1p({
+const bebasNeue = Bebas_Neue({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: '400',
   variable: '--font-heading',
   display: 'swap',
 })
@@ -17,28 +18,28 @@ const workSans = Work_Sans({
 })
 
 export const metadata = {
-  metadataBase: new URL('https://digitalelites-test.vercel.app/'),
+  metadataBase: new URL('https://digitalelites.com.ng/'),
   title: {
-    default: 'Digital Elites | Computer Engineering ATBU',
+    default: 'Digital Elites | Computer and Communication Engineering ATBU',
     template: '%s | Digital Elites',
   },
-  description: 'The Official Digital Yearbook of Computer Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
+  description: 'The Official Digital Yearbook of Computer and Communication Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
   alternates: {
     canonical: '/',
   },
   icons: {
-    icon: 'https://digitalelites-test.vercel.app/digital-logo.jpeg',
+    icon: 'https://digitalelites.com.ng/digital-logo.jpeg',
     shortcut: '/digital-logo.jpeg',
     apple: '/digital-logo.jpeg',
   },
   openGraph: {
-    title: 'Digital Elites | Computer Engineering ATBU',
-    description: 'The Official Digital Yearbook of Computer Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
-    url: 'https://digitalelites-test.vercel.app/',
+    title: 'Digital Elites | Computer and Communication Engineering ATBU',
+    description: 'The Official Digital Yearbook of Computer and Communication Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
+    url: 'https://digitalelites.com.ng/',
     siteName: 'Digital Elites',
     images: [
       {
-        url: 'https://digitalelites-test.vercel.app/digital-logo.jpeg',
+        url: 'https://digitalelites.com.ng/digital-logo.jpeg',
         width: 800,
         height: 800,
         alt: 'Digital Elites Logo',
@@ -49,8 +50,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Digital Elites | Computer Engineering ATBU',
-    description: 'The Official Digital Yearbook of Computer Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
+    title: 'Digital Elites | Computer and Communication Engineering ATBU',
+    description: 'The Official Digital Yearbook of Computer and Communication Engineering, ATBU. Celebrating Excellence. Preserving Legacy.',
     images: ['https://digitalelites-test.vercel.app/digital-logo.jpeg'],
   },
 }
@@ -58,10 +59,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${mPlusU.variable} ${workSans.variable}`}>
-        <Navbar />
-        {children}
-        <Footer />
+      <body className={`${bebasNeue.variable} ${workSans.variable}`}>
+        <Splash duration={3000} >
+          <Navbar />
+          {children}
+          <Footer />
+        </Splash>
       </body>
     </html>
   )

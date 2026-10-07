@@ -1,6 +1,6 @@
 # Digital Elites
 
-The official digital yearbook of the **Department of Computer Engineering, Abubakar Tafawa Balewa University (ATBU)**. Celebrating Excellence. Preserving Legacy.
+The official digital yearbook of the **Department of Computer and Communication Engineering, Abubakar Tafawa Balewa University (ATBU)**. Celebrating Excellence. Preserving Legacy.
 
 This project is a modern, responsive web application designed to archive and showcase the student profiles, memories, and milestones of the graduating Class of 2026.
 

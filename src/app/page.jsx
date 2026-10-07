@@ -1,6 +1,7 @@
 import Hero from '@/components/home/Hero'
 import Stats from '@/components/home/Stats'
 import FinalistOfTheDayPreview from '@/components/home/FinalistOfTheDayPreview'
+import FinalistsPreview from '@/components/home/FinalistsPreview'
 import CountdownPreview from '@/components/home/CountdownPreview'
 import GalleryPreview from '@/components/home/GalleryPreview'
 import DepartmentOverview from '@/components/home/DepartmentOverview'
@@ -40,6 +41,7 @@ export default async function Home() {
       <Hero finalists={finalists} />
       <Stats />
       <FinalistOfTheDayPreview />
+      <FinalistsPreview />
       <CountdownPreview graduationDate={countdown?.graduationDate} />
       <GalleryPreview />
       <DepartmentOverview />

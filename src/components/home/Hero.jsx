@@ -1,617 +1,230 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Search, Star } from 'lucide-react'
+import { Search } from 'lucide-react'
+import { Bebas_Neue } from 'next/font/google'
 import { urlFor } from '@/sanity/lib/image'
 
-// ─── Finalist data ───────────────────────────────────────────────────────────
-// Replace `photo` with the real image path/URL for each student.
-// If photo is null, the component falls back to initials.
-const FINALISTS = [
-  { name: 'Aisha Bello',      nickname: 'The Debugger',   initials: 'AB', photo: null },
-  { name: 'Chukwuemeka O.',   nickname: 'Chief Em',        initials: 'CO', photo: null },
-  { name: 'Fatima Musa',      nickname: 'StackOverflow',   initials: 'FM', photo: null },
-  { name: 'Daniel Adamu',     nickname: 'The Kernel',      initials: 'DA', photo: null },
-  { name: 'Ngozi Eze',        nickname: 'ByteQueen',       initials: 'NE', photo: null },
-  { name: 'Ibrahim Sule',     nickname: 'Mr. Circuit',     initials: 'IS', photo: null },
-  { name: 'Blessing Obi',     nickname: '404 Not Found',   initials: 'BO', photo: null },
-  { name: 'Umar Tanko',       nickname: 'The Compiler',    initials: 'UT', photo: null },
-  { name: 'Chioma Ike',       nickname: 'Git Push',        initials: 'CI', photo: null },
-  { name: 'Yusuf Garba',      nickname: 'Root Access',     initials: 'YG', photo: null },
-  { name: 'Adaeze Nwosu',     nickname: 'CSS Goddess',     initials: 'AN', photo: null },
-  { name: 'Musa Danladi',     nickname: 'The Architect',   initials: 'MD', photo: null },
-]
+const bebas = Bebas_Neue({ subsets: ['latin'], weight: '400', display: 'swap' })
 
-// ─── Single finalist card ─────────────────────────────────────────────────────
-function FinalistCard({ finalist }) {
-  return (
-    <div style={styles.card}>
-      <div style={styles.photoRing}>
-        {finalist.photo ? (
-          <img
-            src={finalist.photo}
-            alt={finalist.name}
-            style={styles.photoImg}
-          />
-        ) : (
-          <div style={styles.photoPlaceholder}>
-            <span style={styles.initials}>{finalist.initials}</span>
-          </div>
-        )}
-      </div>
-      <span style={styles.cardName}>{finalist.name}</span>
-      <span style={styles.cardNick}>"{finalist.nickname}"</span>
-    </div>
-  )
-}
-
-// ─── Starfield canvas ─────────────────────────────────────────────────────────
-function StarfieldCanvas() {
-  const canvasRef = useRef(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const parent = canvas.parentElement
-    canvas.width  = parent.offsetWidth
-    canvas.height = parent.offsetHeight
-    const ctx = canvas.getContext('2d')
-
-    const stars = Array.from({ length: 55 }, () => ({
-      x:     Math.random() * canvas.width,
-      y:     Math.random() * canvas.height,
-      r:     Math.random() * 1.5 + 0.4,
-      alpha: Math.random() * 0.5 + 0.15,
-      speed: Math.random() * 0.006 + 0.003,
-      phase: Math.random() * Math.PI * 2,
-    }))
-
-    let t = 0
-    let raf
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      t += 0.012
-      stars.forEach(s => {
-        const a = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed * 80 + s.phase))
-        ctx.beginPath()
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(201,160,43,${a})`
-        ctx.fill()
-      })
-      raf = requestAnimationFrame(draw)
-    }
-
-    draw()
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  return <canvas ref={canvasRef} style={styles.canvas} aria-hidden="true" />
-}
+// Fallback shown only when no finalists come from Sanity.
+const FALLBACK = [
+  { name: 'Aisha Bello', nickname: 'The Debugger' },
+  { name: 'Chukwuemeka O.', nickname: 'Chief Em' },
+  { name: 'Fatima Musa', nickname: 'StackOverflow' },
+  { name: 'Daniel Adamu', nickname: 'The Kernel' },
+  { name: 'Ngozi Eze', nickname: 'ByteQueen' },
+  { name: 'Ibrahim Sule', nickname: 'Mr. Circuit' },
+].map((f) => ({ ...f, photo: null }))
 
 function getInitials(fullName) {
   if (!fullName) return '?'
-  const parts = fullName.trim().split(/\s+/)
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[1][0]).toUpperCase()
-  }
-  return parts[0][0].toUpperCase()
+  const p = fullName.trim().split(/\s+/)
+  return (p.length >= 2 ? p[0][0] + p[1][0] : p[0][0]).toUpperCase()
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-export default function Hero({ finalists }) {
-  // Map dynamic finalists if available, otherwise fall back to static list
-  const list = (finalists && finalists.length > 0)
-    ? finalists.map((f) => ({
-        name: f.fullName,
-        nickname: f.nickname || '',
-        initials: getInitials(f.fullName),
-        photo: f.photo ? urlFor(f.photo).width(150).height(150).url() : null,
-      }))
-    : FINALISTS
-
-  // Double the list so the CSS marquee loops seamlessly
-  const doubled = [...list, ...list]
-
+function Portrait({ f }) {
   return (
-    <>
-      {/* Keyframe injected once via a <style> tag */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-
-        @keyframes de-shimmer {
-          0%   { color: #C9A02B; }
-          100% { color: #e8c96a; }
-        }
-        @keyframes de-fadeDown {
-          from { opacity: 0; transform: translateY(-18px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes de-fadeUp {
-          from { opacity: 0; transform: translateY(18px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes de-fadeIn {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
-        @keyframes de-scrollLeft {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-
-        body {
-        overflow-x: hidden;
-        }
-
-        .de-gold     { animation: de-shimmer 3s ease-in-out 1.5s infinite alternate; }
-        .de-badge    { animation: de-fadeDown 0.7s ease both; }
-        .de-title    { animation: de-fadeDown 0.8s ease 0.1s both; }
-        .de-sub      { animation: de-fadeDown 0.8s ease 0.2s both; }
-        .de-dept     { animation: de-fadeDown 0.8s ease 0.3s both; }
-        .de-tagline  { animation: de-fadeDown 0.8s ease 0.35s both; }
-        .de-divider  { animation: de-fadeIn  1.0s ease 0.5s  both; }
-        .de-stats    { animation: de-fadeDown 0.9s ease 0.45s both; }
-        .de-cta      { animation: de-fadeUp  0.9s ease 0.55s both; }
-        .de-strip    { animation: de-fadeIn  1.0s ease 0.8s  both; }
-
-        .de-track    { animation: de-scrollLeft 32s linear infinite; }
-        .de-track:hover { animation-play-state: paused; }
-
-        .de-card:hover .de-ring { border-color: #C9A02B !important; }
-        .de-card:hover          { transform: translateY(-4px); }
-
-        .de-btn-primary:hover  { background: #e8c96a !important; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,160,43,0.35); }
-        .de-btn-secondary:hover{ background: rgba(255,255,255,0.07) !important; border-color: rgba(255,255,255,0.6) !important; transform: translateY(-2px); }
-
-        .de-strip-wrapper::before,
-        .de-strip-wrapper::after {
-          content: '';
-          position: absolute;
-          top: 0; bottom: 0;
-          width: 80px;
-          z-index: 3;
-          pointer-events: none;
-        }
-        .de-strip-wrapper::before { left:  0; background: linear-gradient(to right, #0D2B6B, transparent); }
-        .de-strip-wrapper::after  { right: 0; background: linear-gradient(to left,  #0D2B6B, transparent); }
-
-        @media (max-width: 600px) {
-          .de-hero-section {
-            padding: 5rem 1rem 2rem !important;
-          }
-          .de-stats {
-            gap: 1rem !important;
-            flex-wrap: wrap !important;
-            justify-content: center !important;
-          }
-          .de-stat-sep {
-            display: none !important;
-          }
-          .de-stat {
-            flex: 1 1 25% !important;
-            min-width: 80px !important;
-          }
-          .de-tagline {
-            font-size: 0.65rem !important;
-            letter-spacing: 1.5px !important;
-          }
-          .de-title {
-            font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
-          }
-          .de-cta {
-            flex-direction: column !important;
-            width: 100% !important;
-            padding: 0 1rem;
-            gap: 0.75rem !important;
-          }
-          .de-btn-primary, .de-btn-secondary {
-            width: 100% !important;
-            justify-content: center !important;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .de-track { animation: none; }
-          .de-gold  { animation: none; }
-        }
-
-        @media (min-width: 1025px) {
-          .de-badge {
-            padding-top: 300px;
-          }
-        }
-      `}</style>
-
-      <section className="de-hero-section" style={styles.section}>
-        <StarfieldCanvas />
-
-        {/* Radial glows */}
-        <div style={styles.radial1} aria-hidden="true" />
-        <div style={styles.radial2} aria-hidden="true" />
-
-        {/* ── Main content ── */}
-        <div style={styles.content}>
-<br></br>
-          {/* Badge */}
-          <div className="de-badge" style={styles.badge}>
-            <Star size={12} color="#C9A02B" fill="#C9A02B" aria-hidden="true" />
-            <span style={styles.badgeText}>Graduating Class of 2026</span>
-            <Star size={12} color="#C9A02B" fill="#C9A02B" aria-hidden="true" />
-          </div>
-
-          {/* Heading */}
-          <h1 className="de-title" style={styles.title}>
-            Digital{' '}
-            <span className="de-gold" style={styles.goldText}>Elites</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="de-sub"  style={styles.subtitle}>The Official Digital Yearbook of</p>
-          <p className="de-dept" style={styles.deptName}>Computer Engineering, ATBU</p>
-          <p className="de-tagline" style={styles.tagline}>
-            Celebrating Excellence&nbsp;&nbsp;·&nbsp;&nbsp;Preserving Legacy
-          </p>
-
-          {/* Divider */}
-          <div className="de-divider" style={styles.divider}>
-            <div style={styles.dividerLine} />
-            <div style={styles.dividerDiamond} />
-            <div style={styles.dividerLine} />
-          </div>
-
-          {/* Stats */}
-          <div className="de-stats" style={styles.statsRow}>
-            <div className="de-stat" style={styles.stat}>
-              <div style={styles.statNum}>2026</div>
-              <div style={styles.statLabel}>Graduating Year</div>
-            </div>
-            <div className="de-stat-sep" style={styles.statSep} />
-            <div className="de-stat" style={styles.stat}>
-              <div style={styles.statNum}>ATBU</div>
-              <div style={styles.statLabel}>Institution</div>
-            </div>
-            <div className="de-stat-sep" style={styles.statSep} />
-            <div className="de-stat" style={styles.stat}>
-              <div style={styles.statNum}>CompEng</div>
-              <div style={styles.statLabel}>Department</div>
-            </div>
-          </div>
-
-          {/* CTAs */}
-          <div className="de-cta" style={styles.ctaRow}>
-            <Link href="/finalists" className="de-btn-primary" style={styles.btnPrimary}>
-              <Search size={16} aria-hidden="true" />
-              Search Finalists
-            </Link>
-            <Link href="/about" className="de-btn-secondary" style={styles.btnSecondary}>
-              About the Department
-            </Link>
-          </div>
-
-          {/* ── Scroll strip ── */}
-          <div className="de-strip" style={styles.stripSection}>
-            <p style={styles.stripLabel}>— Meet the class —</p>
-
-            <div className="de-strip-wrapper" style={styles.stripWrapper}>
-              <div className="de-track" style={styles.stripTrack}>
-                {doubled.map((f, i) => (
-                  <div key={i} className="de-card" style={styles.card}>
-                    <div className="de-ring" style={styles.photoRing}>
-                      {f.photo ? (
-                        <img src={f.photo} alt={f.name} style={styles.photoImg} />
-                      ) : (
-                        <div style={styles.photoPlaceholder}>
-                          <span style={styles.initials}>{f.initials}</span>
-                        </div>
-                      )}
-                    </div>
-                    <span style={styles.cardName}>{f.name}</span>
-                    {f.nickname && <span style={styles.cardNick}>"{f.nickname}"</span>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom fade */}
-        <div style={styles.bottomFade} aria-hidden="true" />
-      </section>
-    </>
+    <figure className="de-portrait">
+      {f.photo ? (
+        <img src={f.photo} alt={f.name} loading="lazy" />
+      ) : (
+        <div className="de-initials" aria-hidden="true">{getInitials(f.name)}</div>
+      )}
+      <figcaption>
+        <strong>{f.name}</strong>
+        {f.nickname && <span>{f.nickname}</span>}
+      </figcaption>
+    </figure>
   )
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-const styles = {
-  section: {
-    minHeight: '100vh',
-    backgroundColor: '#0D2B6B',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '3rem 2rem 2rem',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  canvas: {
-    position: 'absolute',
-    inset: 0,
-    pointerEvents: 'none',
-  },
-  radial1: {
-    position: 'absolute',
-    width: 500, height: 500,
-    left: -100, top: -80,
-    background: 'radial-gradient(circle, rgba(201,160,43,0.09) 0%, transparent 65%)',
-    pointerEvents: 'none',
-  },
-  radial2: {
-    position: 'absolute',
-    width: 400, height: 400,
-    right: -80, bottom: 80,
-    background: 'radial-gradient(circle, rgba(201,160,43,0.06) 0%, transparent 65%)',
-    pointerEvents: 'none',
-  },
-  content: {
-    maxWidth: 800,
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative',
-    zIndex: 1,
-  },
+// Splits finalists into 3 columns, repeating so each column is long enough to loop.
+function buildColumns(list) {
+  return [0, 1, 2].map((c) => {
+    let col = list.filter((_, i) => i % 3 === c)
+    if (col.length === 0) col = list
+    while (col.length < 5) col = [...col, ...col]
+    return col
+  })
+}
 
-  // Badge
-  badge: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 7,
-    background: 'rgba(201,160,43,0.13)',
-    border: '1px solid rgba(201,160,43,0.38)',
-    borderRadius: 30,
-    padding: '5px 16px',
-    marginBottom: '1.3rem',
-  },
-  badgeText: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.72rem',
-    fontWeight: 600,
-    color: '#C9A02B',
-    letterSpacing: '1.8px',
-    textTransform: 'uppercase',
-  },
+export default function Hero({ finalists }) {
+  const list =
+    finalists && finalists.length > 0
+      ? finalists.map((f) => ({
+          name: f.fullName,
+          nickname: f.nickname || '',
+          photo: f.photo ? urlFor(f.photo).width(400).height(520).url() : null,
+        }))
+      : FALLBACK
 
-  // Heading
-  title: {
-    fontFamily: "var(--font-heading)",
-    fontSize: 'clamp(2.4rem, 6vw, 4.8rem)',
-    fontWeight: 700,
-    color: '#fff',
-    lineHeight: 1.08,
-    margin: '0 0 0.5rem',
-    textAlign: 'center',
-  },
-  goldText: {
-    color: '#C9A02B',
-    display: 'inline-block',
-  },
+  const columns = buildColumns(list)
 
-  // Copy
-  subtitle: {
-    fontFamily: 'var(--font-body)',
-    fontSize: 'clamp(0.82rem, 1.8vw, 0.97rem)',
-    color: 'rgba(255,255,255,0.65)',
-    textAlign: 'center',
-    margin: '0 auto 0.3rem',
-    maxWidth: 480,
-  },
-  deptName: {
-    fontFamily: "var(--font-heading)",
-    fontSize: 'clamp(0.9rem, 2vw, 1.15rem)',
-    fontWeight: 700,
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: '0.4rem',
-  },
-  tagline: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.75rem',
-    color: '#C9A02B',
-    letterSpacing: '2.5px',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    marginBottom: '1.3rem',
-  },
+  return (
+    <>
+      <style>{`
+        .de-hero {
+          --ink: #0A1A3F;
+          --ink-2: #14295C;
+          --paper: #F3F5FA;
+          --muted: #A9B4D0;
+          --sun: #FFC93C;
+          min-height: 100svh;
+          background: var(--ink);
+          color: var(--paper);
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          align-items: center;
+          gap: clamp(2rem, 5vw, 5rem);
+          padding: 6rem clamp(1.25rem, 5vw, 4.5rem) 3rem;
+          overflow: hidden;
+          position: relative;
+        }
 
-  // Divider
-  divider: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    width: '100%',
-    maxWidth: 340,
-    margin: '0 auto 1.3rem',
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    background: 'linear-gradient(to right, transparent, rgba(201,160,43,0.45), transparent)',
-  },
-  dividerDiamond: {
-    width: 7, height: 7,
-    background: '#C9A02B',
-    transform: 'rotate(45deg)',
-    flexShrink: 0,
-    opacity: 0.8,
-  },
+        .de-copy { max-width: 34rem; }
+        .de-copy h1 {
+          font-family: var(--font-display);
+          font-size: clamp(4rem, 10vw, 9rem);
+          font-weight: 400;
+          line-height: 0.88;
+          letter-spacing: 0.01em;
+          margin: 0 0 1.5rem;
+          color: var(--paper);
+        }
+        .de-copy p {
+          font-family: var(--font-body, inherit);
+          font-size: clamp(1rem, 1.4vw, 1.2rem);
+          line-height: 1.55;
+          color: var(--muted);
+          margin: 0 0 2.25rem;
+          max-width: 28rem;
+        }
+        .de-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 1.75rem; }
 
-  // Stats
-  statsRow: {
-    display: 'flex',
-    gap: '1.8rem',
-    justifyContent: 'center',
-    marginBottom: '1.5rem',
-  },
-  stat: { textAlign: 'center' },
-  statNum: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '1.35rem',
-    fontWeight: 700,
-    color: '#C9A02B',
-    lineHeight: 1,
-  },
-  statLabel: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.68rem',
-    color: 'rgba(255,255,255,0.5)',
-    letterSpacing: '1.2px',
-    textTransform: 'uppercase',
-    marginTop: 2,
-  },
-  statSep: {
-    width: 1,
-    background: 'rgba(201,160,43,0.25)',
-    alignSelf: 'stretch',
-  },
+        .de-btn {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          background: var(--sun); color: var(--ink);
+          font-family: var(--font-body, inherit);
+          font-weight: 700; font-size: 1rem;
+          padding: 0.95rem 1.5rem;
+          border-radius: 999px;
+          text-decoration: none;
+          transition: transform .18s ease, background .18s ease;
+        }
+        .de-btn:hover { transform: translateY(-2px); background: #ffd766; }
+        .de-link {
+          font-family: var(--font-body, inherit);
+          color: var(--paper); font-weight: 500;
+          text-decoration: underline; text-underline-offset: 5px;
+          text-decoration-color: rgba(243,245,250,.35);
+          transition: text-decoration-color .18s ease;
+        }
+        .de-link:hover { text-decoration-color: var(--sun); }
+        .de-btn:focus-visible, .de-link:focus-visible {
+          outline: 3px solid var(--paper); outline-offset: 3px;
+        }
 
-  // CTAs
-  ctaRow: {
-    display: 'flex',
-    gap: '1rem',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginBottom: '2.5rem',
-  },
-  btnPrimary: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 8,
-    background: '#C9A02B',
-    color: '#0D2B6B',
-    fontFamily: 'var(--font-body, Inter, sans-serif)',
-    fontSize: '0.9rem',
-    fontWeight: 700,
-    padding: '13px 28px',
-    borderRadius: 4,
-    textDecoration: 'none',
-    letterSpacing: '0.3px',
-    transition: 'all 0.22s ease',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  btnSecondary: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 8,
-    background: 'transparent',
-    color: '#fff',
-    fontFamily: 'var(--font-body, Inter, sans-serif)',
-    fontSize: '0.9rem',
-    fontWeight: 500,
-    padding: '13px 28px',
-    borderRadius: 4,
-    textDecoration: 'none',
-    border: '1px solid rgba(255,255,255,0.28)',
-    letterSpacing: '0.3px',
-    transition: 'all 0.22s ease',
-    cursor: 'pointer',
-  },
+        /* Photo wall */
+        .de-wall {
+          height: min(78svh, 46rem);
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: clamp(.6rem, 1.2vw, 1rem);
+          -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+                  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+        }
+        .de-col { overflow: hidden; }
+        .de-col:nth-child(2) { margin-top: 3rem; }
+        .de-track {
+          display: flex; flex-direction: column;
+          gap: clamp(.6rem, 1.2vw, 1rem);
+          animation: de-rise 46s linear infinite;
+        }
+        .de-col:nth-child(2) .de-track { animation-direction: reverse; animation-duration: 54s; }
+        .de-col:nth-child(3) .de-track { animation-duration: 60s; }
+        .de-wall:hover .de-track { animation-play-state: paused; }
+        @keyframes de-rise { to { transform: translateY(calc(-50% - clamp(.3rem, .6vw, .5rem))); } }
 
-  // Scroll strip
-  stripSection: {
-    width: '100%',
-  },
-  stripLabel: {
-    fontSize: '0.68rem',
-    color: 'rgba(255, 252, 252, 0.35)',
-    letterSpacing: '2px',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    marginBottom: '0.9rem',
-  },
-  stripWrapper: {
-    width: '100%',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  stripTrack: {
-    display: 'flex',
-    gap: 14,
-    width: 'max-content',
-  },
+        .de-portrait {
+          position: relative; margin: 0;
+          aspect-ratio: 3 / 4;
+          border-radius: 14px;
+          overflow: hidden;
+          background: var(--ink-2);
+          flex-shrink: 0;
+        }
+        .de-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .de-initials {
+          width: 100%; height: 100%;
+          display: grid; place-items: center;
+          font-family: var(--font-display);
+          font-size: 3rem; font-weight: 400; letter-spacing: .02em;
+          color: var(--muted);
+        }
+        .de-portrait figcaption {
+          position: absolute; inset: auto 0 0 0;
+          padding: 2.5rem .75rem .7rem;
+          background: linear-gradient(to top, rgba(10,26,63,.92), transparent);
+          display: flex; flex-direction: column; gap: 2px;
+          opacity: 0; transform: translateY(6px);
+          transition: opacity .2s ease, transform .2s ease;
+        }
+        .de-portrait:hover figcaption { opacity: 1; transform: none; }
+        .de-portrait strong { font-size: .8rem; font-weight: 600; line-height: 1.25; }
+        .de-portrait span { font-size: .72rem; color: var(--sun); }
 
-  // Finalist card
-  card: {
-    flexShrink: 0,
-    width: 110,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 7,
-    cursor: 'pointer',
-    transition: 'transform 0.2s ease',
-    paddingBottom: '1rem',
-  },
-  photoRing: {
-    width: 76,
-    height: 76,
-    borderRadius: '50%',
-    border: '2px solid rgba(201,160,43,0.45)',
-    padding: 3,
-    flexShrink: 0,
-    transition: 'border-color 0.2s ease',
-  },
-  photoImg: {
-    width: '100%',
-    height: '100%',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    display: 'block',
-  },
-  photoPlaceholder: {
-    width: '100%',
-    height: '100%',
-    borderRadius: '50%',
-    background: '#132a4a',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  initials: {
-    fontFamily: "var(--font-playfair, serif)",
-    fontSize: '1.15rem',
-    fontWeight: 700,
-    color: '#C9A02B',
-  },
-  cardName: {
-    fontSize: '0.7rem',
-    fontWeight: 600,
-    color: '#fff',
-    textAlign: 'center',
-    lineHeight: 1.3,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: 100,
-  },
-  cardNick: {
-    fontSize: '0.63rem',
-    color: '#C9A02B',
-    textAlign: 'center',
-    letterSpacing: '0.4px',
-  },
+        @media (max-width: 860px) {
+          .de-hero { grid-template-columns: 1fr; padding-top: 5.5rem; gap: 2.5rem; }
+          .de-wall { height: 26rem; }
+          .de-wall .de-col:nth-child(3) { display: none; }
+          .de-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .de-portrait figcaption { opacity: 1; transform: none; }
+        }
+        @media (max-width: 480px) {
+          .de-actions { flex-direction: column; align-items: stretch; text-align: center; }
+          .de-btn { justify-content: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .de-track { animation: none; }
+          .de-col { overflow-y: auto; }
+        }
+      `}</style>
 
-  // Bottom fade
-  bottomFade: {
-    position: 'absolute',
-    bottom: 0, left: 0, right: 0,
-    height: 100,
-    background: 'linear-gradient(to bottom, transparent, rgba(13,43,107,0.4))',
-    pointerEvents: 'none',
-  },
+      <section
+        className="de-hero"
+        aria-labelledby="de-heading"
+        style={{ '--font-display': bebas.style.fontFamily }}
+      >
+        <div className="de-copy">
+          <h1 id="de-heading">Digital Elites</h1>
+          <p>
+            The class of 2026 from Computer and Communication Engineering at ATBU. Find your
+            coursemates, read their stories, and keep the memories.
+          </p>
+          <div className="de-actions">
+            <Link href="/finalists" className="de-btn">
+              <Search size={18} aria-hidden="true" />
+              Find a finalist
+            </Link>
+            <Link href="/about" className="de-link">
+              About the department
+            </Link>
+          </div>
+        </div>
+
+        <div className="de-wall" aria-label="Photos of the graduating class">
+          {columns.map((col, ci) => (
+            <div className="de-col" key={ci}>
+              <div className="de-track">
+                {[...col, ...col].map((f, i) => (
+                  <Portrait f={f} key={i} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  )
 }

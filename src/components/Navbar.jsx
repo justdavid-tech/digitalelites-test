@@ -62,16 +62,19 @@ export default function Navbar() {
           gap: '10px',
           textDecoration: 'none',
         }}>
-          <span style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '1.2rem',
-            fontWeight: '700',
-            color: 'var(--color-white)',
-            letterSpacing: '0.5px',
-            whiteSpace: 'nowrap',
-          }}>
-            Digital Elites
-          </span>
+          <Image
+            src="/logo-nav.png"
+            alt="Digital Elites Logo"
+            width={300}
+            height={100}
+            style={{
+              height: '62px',
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+            priority
+          />
         </Link>
 
         {/* MIDDLE — Nav Links (desktop) */}

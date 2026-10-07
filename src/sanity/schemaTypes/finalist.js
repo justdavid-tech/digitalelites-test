@@ -59,7 +59,7 @@ export default {
     { name: 'classCrush', title: 'Class Crush', type: 'string' },
     { name: 'bestExperience', title: 'Best Experience', type: 'text' },
     { name: 'atbuInOneWord', title: 'ATBU In One Word', type: 'string' },
-    { name: 'ifNotComputerEngineering', title: 'If Not Computer Engineering', type: 'string' },
+    { name: 'ifNotComputerEngineering', title: 'If Not Computer and Communication Engineering', type: 'string' },
 
     // Quote
     { name: 'personalQuote', title: 'Personal Quote', type: 'text' },

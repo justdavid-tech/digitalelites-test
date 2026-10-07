@@ -47,8 +47,10 @@ function shuffleArray(array) {
   return arr
 }
 
+const DEFAULT_GRADUATION_DATE = '2026-10-14T09:00:00.000Z'
+
 export default function CountdownClient({ graduationDate, graduationMessage, finalistPhotos }) {
-  const timeLeft = useCountdown(graduationDate)
+  const timeLeft = useCountdown(graduationDate || DEFAULT_GRADUATION_DATE)
   const [shuffled, setShuffled] = useState([])
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function CountdownClient({ graduationDate, graduationMessage, fin
     <>
       {/* Main Countdown Section */}
       <section style={{
-        backgroundColor: 'var(--color-deep-blue)',
+        backgroundColor: 'var(--color-deep-blue-dark)',
         padding: '5rem 2rem',
         textAlign: 'center',
       }}>
